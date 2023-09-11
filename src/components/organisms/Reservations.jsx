@@ -1,32 +1,34 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Header from './Header';
 import '../styles/Reservations.css';
 
 const Reservations = () => {
   const navigate = useNavigate();
+  const [currentDate, setCurrentDate] = useState(new Date());
 
   const handleNavigateToReservationConfig = () => {
     navigate("/reservation-config");
   };
+
   const handleNavigateToReservationDetail = (reservationId) => {
     navigate(`/reservation-detail/${reservationId}`);
   };
 
   const handlePrevDate = () => {
     setCurrentDate(prevDate => {
-        const newDate = new Date(prevDate);
-        newDate.setDate(newDate.getDate() - 1);
-        return newDate;
+      const newDate = new Date(prevDate);
+      newDate.setDate(newDate.getDate() - 1);
+      return newDate;
     });
   };
 
   const handleNextDate = () => {
-      setCurrentDate(prevDate => {
-          const newDate = new Date(prevDate);
-          newDate.setDate(newDate.getDate() + 1);
-          return newDate;
-      });
+    setCurrentDate(prevDate => {
+      const newDate = new Date(prevDate);
+      newDate.setDate(newDate.getDate() + 1);
+      return newDate;
+    });
   };
 
   const formatDate = (date) => {
@@ -46,9 +48,9 @@ const Reservations = () => {
       <div>
         <h2>服薬指導 予約リスト</h2>
         <div className="stickyControls">
-          <button>←</button>
-          <span>09月11日（月）</span>
-          <button>→</button>
+          <button onClick={handlePrevDate}>←</button>
+          <span>{formatDate(currentDate)}</span>
+          <button onClick={handleNextDate}>→</button>
           <button onClick={handleNavigateToReservationConfig}>予約枠を設定</button>
         </div>
         <div className="reservationList">
@@ -68,5 +70,4 @@ const Reservations = () => {
     </div>
   );
 };
-
 export default Reservations;

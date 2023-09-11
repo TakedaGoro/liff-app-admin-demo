@@ -5,20 +5,27 @@ import "../styles/ReservationConfig.css";
 
 const ReservationConfig = () => {
   const navigate = useNavigate();
-  const [startDate, setStartDate] = useState("");
-  const [endDate, setEndDate] = useState("");
+  const currentDate = new Date();
+  const formatDate = (date) => {
+    return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
+  };
   const [startTime, setStartTime] = useState("");
-  const [endTime, setEndTime] = useState("");
+  const [endTime, setEndTime] = useState("00:30");
   const [repeatWeekly, setRepeatWeekly] = useState(false);
   const [deadline, setDeadline] = useState(0);
   const [capacity, setCapacity] = useState(1);
   const [reservations, setReservations] = useState([]);
 
+  const times = [];
+  for (let i = 9; i <= 19; i++) {
+    times.push(`${String(i).padStart(2, '0')}:00`);
+    if (i !== 19) {
+      times.push(`${String(i).padStart(2, '0')}:30`);
+    }
+  }
+
   const handleAddReservation = () => {
-    // ここで予約枠を作成するロジックを追加
-    // 例: 9:00から10:00までの場合、9:00-9:30と9:30-10:00の2つの枠を作成
-    // このデモでは簡単のため、直接追加しています
-    setReservations([...reservations, { startDate, endDate, startTime, endTime, repeatWeekly, deadline, capacity }]);
+    setReservations([...reservations, { startDate: formatDate(currentDate), startTime, endTime, repeatWeekly, deadline, capacity }]);
   };
 
   const backHome = () => {
@@ -32,22 +39,27 @@ const ReservationConfig = () => {
         <h2>予約枠設定</h2><button onClick={backHome}>戻る</button>
         <div>
           <label>
-            設定日:
-            <input type="date" value={startDate} onChange={(e) => setStartDate(e.target.value)} />
-            〜
-            <input type="date" value={endDate} onChange={(e) => setEndDate(e.target.value)} />
+            設定日: {formatDate(currentDate)}
           </label>
         </div>
         <div>
           <label>
             開始時間:
-            <input type="time" value={startTime} onChange={(e) => setStartTime(e.target.value)} />
+            <select value={startTime} onChange={(e) => setStartTime(e.target.value)}>
+              {times.map((time, index) => (
+                <option key={index} value={time}>{time}</option>
+              ))}
+            </select>
           </label>
         </div>
         <div>
           <label>
             終了時間:
-            <input type="time" value={endTime} onChange={(e) => setEndTime(e.target.value)} />
+            <select value={endTime} onChange={(e) => setEndTime(e.target.value)}>
+              {times.map((time, index) => (
+                <option key={index} value={time}>{time}</option>
+              ))}
+            </select>
           </label>
         </div>
         <div>
@@ -83,5 +95,4 @@ const ReservationConfig = () => {
     </div>
   );
 };
-
 export default ReservationConfig;
