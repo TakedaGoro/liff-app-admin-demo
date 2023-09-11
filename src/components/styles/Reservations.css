@@ -1,0 +1,27 @@
+.stickyControls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background-color: white;
+  z-index: 1;
+  justify-content: center;
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.reservationList {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.reservationItem {
+  border: 1px solid black;
+  padding: 10px;
+  width: 200px;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
